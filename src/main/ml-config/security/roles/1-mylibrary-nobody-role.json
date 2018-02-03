@@ -1,0 +1,5 @@
+{
+  "role-name" : "mylibrary-nobody",
+  "description" : "Unauthenticated user",
+  "role" : [ ]
+}

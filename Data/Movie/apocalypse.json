@@ -1,0 +1,40 @@
+{  
+   "Title":"Apocalypse Now",
+   "Year":"1979",
+   "Rated":"R",
+   "Released":"15 Aug 1979",
+   "Runtime":"147 min",
+   "Genre":["Drama", "War"],
+   "Director":"Francis Ford Coppola",
+   "Writer":"John Milius, Francis Ford Coppola, Michael Herr (narration)",
+   "Actors":["Marlon Brando", "Martin Sheen", "Robert Duvall", "Frederic Forrest"],
+   "Plot":"During the Vietnam War, Captain Willard is sent on a dangerous mission into Cambodia to assassinate a renegade Colonel who has set himself up as a god among a local tribe.",
+   "Language":["English", "French", "Vietnamese"],
+   "Country":"USA",
+   "Awards":"Won 2 Oscars. Another 18 wins & 31 nominations.",
+   "Poster":"https://images-na.ssl-images-amazon.com/images/M/MV5BMDg1MDgzMmQtNDhlYS00MzZiLTllZGItNzliZTE1ODBiZDQwXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+   "Ratings":[  
+      {  
+         "Source":"Internet Movie Database",
+         "Value":"8.5/10"
+      },
+      {  
+         "Source":"Rotten Tomatoes",
+         "Value":"98%"
+      },
+      {  
+         "Source":"Metacritic",
+         "Value":"94/100"
+      }
+   ],
+   "Metascore":"94",
+   "imdbRating":"8.5",
+   "imdbVotes":"498,639",
+   "imdbID":"tt0078788",
+   "Type":"movie",
+   "DVD":"20 Nov 2001",
+   "BoxOffice":"N/A",
+   "Production":"United Artists",
+   "Website":"http://www.zoetrope.com/zoe_films.cgi?page=films&action=show_one&film_id=13",
+   "Response":"True"
+}

@@ -1,0 +1,13 @@
+*.sh
+*.cmd
+*.log
+*.jar
+*.zip
+*.exe
+nohup.out
+target
+target-eclipse
+.classpath
+.project
+.settings
+

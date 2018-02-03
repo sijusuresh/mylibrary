@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <bean id="getAllSearchOptions" class="java.lang.String">
+    <constructor-arg>
+      <value><![CDATA[
+    <options xmlns="http://marklogic.com/appservices/search">
+	    <additional-query>
+	      <and-query xmlns="http://marklogic.com/cts">
+	        <directory-query>
+	          <uri>/movie/</uri>
+	        </directory-query>
+	      </and-query>
+	    </additional-query>
+		<constraint name="Actors">
+	      <range>
+	        <json-property>Actors</json-property>
+	      </range>
+	    </constraint>
+	    <constraint name="Genre">
+	      <range>
+	        <json-property>Genre</json-property>
+	      </range>
+	    </constraint>
+	    <constraint name="Director">
+	      <range>
+	        <json-property>Director</json-property>
+	      </range>
+	    </constraint>
+	    <constraint name="Language">
+	      <range>
+	        <json-property>Language</json-property>
+	      </range>
+	    </constraint>
+	    <sort-order type="xs:string" 
+	      collation="http://marklogic.com/collation/"
+	      direction="ascending">
+	    	<json-property>Title</json-property>
+	  	</sort-order>
+	  	<extract-document-data selected="include">
+  			<extract-path>/Title</extract-path>
+  			<extract-path>/Poster</extract-path>
+		</extract-document-data>
+	    <transform-results apply="snippet">
+	  		<preferred-matches>
+	    		<json-property>Title</json-property>
+	  		</preferred-matches>
+		</transform-results>
+  	</options>
+		 ]]></value>
+    </constructor-arg>
+  </bean>
+</beans>

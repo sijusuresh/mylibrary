@@ -1,0 +1,5 @@
+{
+  "role-name" : "mylibrary-internal",
+  "description" : "Internal role used for amping",
+  "role" : [ "mylibrary-writer" ]
+}

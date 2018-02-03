@@ -1,0 +1,48 @@
+body { background-color: white; font-family: arial,sans-serif; }
+
+td,div,p,a { font-family: arial,sans-serif; }
+
+.small { font-size: 80% }
+
+.bold { font-weight: bold }
+
+.link { cursor: pointer; cursor: hand }
+
+.white { color: #ffffff; }
+
+.ul {                                 
+  list-style-type: none;  
+  padding: 0;             
+  margin: 0;
+}                                   
+
+.li {                                 
+  padding-left: 0.5em;    
+}
+.handle {                                                                            
+  background: transparent url("/resources/images/spacer.png");                         
+  background-repeat: no-repeat;                                            
+  background-position: 100%;                                      
+  display: block;                                                          
+  float: left;                                                             
+  width: 23px;                                                             
+  height: 14px;
+}                                                                                    
+
+.collapsed {                                                                         
+  background: transparent url("/resources/images/toggle_plus.png");                     
+  background-repeat: no-repeat;                                            
+  background-position: 100%;                                      
+  cursor: pointer;
+}                                                                                    
+
+.expanded {                                                                          
+  background: url("/resources/images/toggle_minus.png");                    
+  background-repeat: no-repeat;                                            
+  background-position: 100%;                                      
+  cursor: pointer;
+}
+
+a { text-decoration : none; color : #000;font-size:13px; }
+
+td.blue {color:#00F;} 

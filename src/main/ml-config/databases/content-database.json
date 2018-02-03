@@ -1,0 +1,51 @@
+{
+  "database-name" : "%%DATABASE%%",
+  "three-character-searches": true,
+  "stemmed-searches": "basic",
+  "word-lexicon": ["http://marklogic.com/collation/"],
+  "range-element-index" : [ {
+    "scalar-type" : "string",
+    "namespace-uri" : "",
+    "localname" : "Actors",
+    "collation" : "http://marklogic.com/collation/",
+    "range-value-positions" : false,
+    "invalid-values" : "reject"
+  },{
+    "scalar-type" : "string",
+    "namespace-uri" : "",
+    "localname" : "Director",
+    "collation" : "http://marklogic.com/collation/",
+    "range-value-positions" : false,
+    "invalid-values" : "reject"
+  },{
+    "scalar-type" : "float",
+    "namespace-uri" : "",
+    "localname" : "imdbRating",
+    "collation" : "http://marklogic.com/collation/",
+    "range-value-positions" : false,
+    "invalid-values" : "reject"
+  },{
+    "scalar-type" : "string",
+    "namespace-uri" : "",
+    "localname" : "Genre",
+    "collation" : "http://marklogic.com/collation/",
+    "range-value-positions" : false,
+    "invalid-values" : "reject"
+  },{
+    "scalar-type" : "string",
+    "namespace-uri" : "",
+    "localname" : "Language",
+    "collation" : "http://marklogic.com/collation/",
+    "range-value-positions" : false,
+    "invalid-values" : "reject"
+  },{
+    "scalar-type" : "string",
+    "namespace-uri" : "",
+    "localname" : "Title",
+    "collation" : "http://marklogic.com/collation/",
+    "range-value-positions" : false,
+    "invalid-values" : "reject"
+  }
+
+  ]
+}
