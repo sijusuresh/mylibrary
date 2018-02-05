@@ -4,54 +4,44 @@
     <constructor-arg>
       <value><![CDATA[
     <options xmlns="http://marklogic.com/appservices/search">
-	    <additional-query>
-	      <and-query xmlns="http://marklogic.com/cts">
-	        <directory-query>
-	          <uri>/movie/</uri>
-	        </directory-query>
-	      </and-query>
-	    </additional-query>
 		<constraint name="Actors">
-	      <range>
+	      <range type="xs:string" facet="true">
 	        <json-property>Actors</json-property>
 	      </range>
 	    </constraint>
 	    <constraint name="Genre">
-	      <range>
+	      <range type="xs:string" facet="true">
 	        <json-property>Genre</json-property>
 	      </range>
 	    </constraint>
 	    <constraint name="Director">
-	      <range>
+	      <range type="xs:string" facet="true">
 	        <json-property>Director</json-property>
 	      </range>
 	    </constraint>
 	    <constraint name="Language">
-	      <range>
+	      <range type="xs:string" facet="true">
 	        <json-property>Language</json-property>
 	      </range>
 	    </constraint>
+	    <constraint name="IMDB-Rating">
+	      <range type="xs:float" facet="true">
+	        <bucket ge="9" name="9-10">9-10</bucket>
+	        <bucket ge="8" lt="9" name="8-9">8-9</bucket>
+	        <bucket ge="7" lt="8" name="7-8">7-8</bucket>
+	        <bucket ge="5" lt="7" name="5-7">5-7</bucket>
+	        <json-property>imdbRating</json-property>
+	      </range>
+    	</constraint>
 	    <sort-order type="xs:string" 
 	      collation="http://marklogic.com/collation/"
 	      direction="ascending">
 	    	<json-property>Title</json-property>
 	  	</sort-order>
-	  	<term>
-	     <term-option>case-insensitive</term-option>
-	     <term-option>diacritic-insensitive</term-option>
-	     <term-option>punctuation-insensitive</term-option>
-	     <term-option>whitespace-insensitive</term-option>
-	     <term-option>wildcarded</term-option>
-    	</term>
 	  	<extract-document-data selected="include">
   			<extract-path>/Title</extract-path>
   			<extract-path>/Poster</extract-path>
 		</extract-document-data>
-	    <transform-results apply="snippet">
-	  		<preferred-matches>
-	    		<json-property>Title</json-property>
-	  		</preferred-matches>
-		</transform-results>
   	</options>
 		 ]]></value>
     </constructor-arg>

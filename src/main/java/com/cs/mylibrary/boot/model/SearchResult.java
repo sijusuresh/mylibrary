@@ -7,6 +7,15 @@ public class SearchResult<I, F> {
 	private long total;
 	private String queryCriteria;
 	private String uri;
+	private int includetvseries;
+	
+	public int getIncludetvseries() {
+		return includetvseries;
+	}
+
+	public void setIncludetvseries(int includetvseries) {
+		this.includetvseries = includetvseries;
+	}
 
 	public String getUri() {
 		return uri;

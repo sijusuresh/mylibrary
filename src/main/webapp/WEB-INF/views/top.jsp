@@ -4,7 +4,8 @@
 
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="../resources/js/jquery.min.js"></script>
-
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="../resources/css/style.min.css" />
 <link rel="stylesheet" href="../resources/css/styles.css" />
 <script>
@@ -27,6 +28,10 @@ $(document).ready(function() {
 	    }
 	});
 
+	// Set the check box value to a hidden field based on check event
+	$('#includetvseries').on('change', function(){
+   		$('#includetvseriestxt').val(this.checked ? 1 : 0);
+	});
  	// search button click event
     $("#searchbutton").click(function(e) {
 	    e.preventDefault();
@@ -35,6 +40,7 @@ $(document).ready(function() {
 	      url: "/searchText",
 	      data: {
 	        query: $("#query").val(),
+	        includetvseries: $("#includetvseriestxt").val()
 	      },
 	      success: function(result) {
 	    	  $.fn.setFrameContent(result);
@@ -49,6 +55,12 @@ $(document).ready(function() {
     	var responseObj = $.parseJSON(JSON.stringify(result));
 	   	 // Set Right Frame Content
 	   	 var total_rows = responseObj.total;
+	   	 var includetvseries = responseObj.includetvseries;
+	   	 if(total_rows < 1){
+	   		$('#contentdiv',parent.frames["rightFrame"].document.body).html('<p class="pnodata">No Movie Data....</p>');
+	   		$('#facetdiv',parent.frames["leftFrame"].document.body).html('<p class="pnodata">No Movie Data....</p>');
+	   		return;
+	   	 }
 	   	 var queryCriteria = responseObj.queryCriteria;
 	   	 if(queryCriteria == null){// If query is null dont send null set it as empty string
 	   		queryCriteria = '';
@@ -72,13 +84,12 @@ $(document).ready(function() {
 	          var count = 1;
 	          for(var x = 0;  x < total_rows; x += 10)
 	          {
-	          	 rightFrameContent += '<td><a href="#" onClick="getNextPage(\''+count+'\',\''+queryCriteria+'\')">'+count+'</a></td>';
+	          	 rightFrameContent += '<td><a href="#" onClick="getNextPage(\''+count+'\',\''+queryCriteria+'\','+includetvseries+')">'+count+'</a></td>';
 	          	 count++;
 	          }
 	          rightFrameContent += '</tr></table>';
 	      }
 	      $('#contentdiv',parent.frames["rightFrame"].document.body).html(rightFrameContent);
-	      //$(parent.frames["rightFrame"].document.body).html(rightFrameContent);
 	      // Set Left Frame Content
 	      var content="<ul id='tree'>";
 	      $.each(responseObj.facets, function(index,facets){
@@ -93,22 +104,53 @@ $(document).ready(function() {
 	      //alert(content);
 	   	$('#facetdiv',parent.frames["leftFrame"].document.body).html(content);
     }
+    $( function() {
+    	$( "#query" ).autocomplete({
+    		/*position: {
+    		       my: "left bottom",
+    		       at: "left top",
+    		},*/
+    	    source: function( request, response ) {
+    	        $.ajax({
+    	            type : 'Get',
+    	            url: '/getSearchSuggestions',
+    	            dataType: "json",
+    	            data: {
+    	            	query: document.getElementById('query').value
+    	            },
+    	            success: function(data) {
+    	                $('input.suggest-user').removeClass('ui-autocomplete-loading');
+    	                response(data);
+    	            },
+    	            error: function(data) {
+    	                $('input.suggest-user').removeClass('ui-autocomplete-loading');  
+    	            }
+    	        });
+    	    }
+    	});
+    });
 });
 
 </script>
 <body>
 <div align="center">
 <table cellpadding="5" cellspacing="0" border="0" width="100%">
-	<tr><td align="center"><font size="6">Movie Library</font></td>
-	</tr>
 	<tr>
 			<td align="right">
-					<input type="hidden" name="start" id="start" value="1"/>
-			 		<input type="text" id="query" size="25" maxlength="256" />
-		         	<input type="button" id="searchbutton" value="search"/>
+				<input type="hidden" value="0" id="includetvseriestxt" />
+    			<input type="checkbox" id="includetvseries">
+    			<label for="Include">Include TVSeries?</label>
+			 	<input type="text" id="query" size="25" maxlength="256" />
+		        <input type="button" id="searchbutton" value="search"/>
 			</td>
 	    </tr>
 </table>
+<table cellpadding="5" cellspacing="0" border="0" width="100%">
+	<tr><td align="center"><font face="corbertcondenseditalic" size="6">Movie Library</font></td>
+	</tr>
+</table>
+<br><br>
+
 </div>
 </body>
 </html>

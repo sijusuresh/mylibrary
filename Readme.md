@@ -1,4 +1,5 @@
-This is a web application developed on Spring Boot and Java for maintaining Movie details.
+This is a web application developed on Spring Boot and Java for maintaining Movie details demonstrating some of the MarkLogic key features of search API.
+
 Project instructions will help lead you to install and run application in windows environment, can run in any platform with minimal changes.
 
 Project Setup

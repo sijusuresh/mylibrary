@@ -17,8 +17,8 @@ public class ConfigService {
 	protected DatabaseClient databaseClient;
 	
 	@Autowired
-	@Qualifier("getAllSearchOptions")
-	private String getAllSearchOptions;
+	@Qualifier("getAllMoviesSearchOptions")
+	private String getAllMoviesSearchOptions;
 	
 	@Autowired
 	@Qualifier("searchTermOptions")
@@ -28,8 +28,8 @@ public class ConfigService {
 	public void init() {
 		System.out.println("Initializing Options persisting .............");
 		QueryOptionsManager optionsMgr = databaseClient.newServerConfigManager().newQueryOptionsManager();
-	    optionsMgr.deleteOptions("getAllSearchOptions");
-	    optionsMgr.writeOptionsAs("getAllSearchOptions", Format.XML, getAllSearchOptions);
+	    optionsMgr.deleteOptions("getAllMoviesSearchOptions");
+	    optionsMgr.writeOptionsAs("getAllMoviesSearchOptions", Format.XML, getAllMoviesSearchOptions);
 	    optionsMgr.deleteOptions("searchTermOptions");
 	    optionsMgr.writeOptionsAs("searchTermOptions", Format.XML, searchTermOptions);
 	}

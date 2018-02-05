@@ -1,21 +1,26 @@
 package com.cs.mylibrary.boot.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Document;
 
 import com.cs.mylibrary.boot.model.MovieModel;
 import com.cs.mylibrary.boot.model.SearchResult;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marklogic.client.DatabaseClient;
 import com.marklogic.client.document.JSONDocumentManager;
+import com.marklogic.client.eval.ServerEvaluationCall;
+import com.marklogic.client.io.DOMHandle;
 import com.marklogic.client.io.SearchHandle;
 import com.marklogic.client.io.StringHandle;
 import com.marklogic.client.query.ExtractedItem;
@@ -25,16 +30,23 @@ import com.marklogic.client.query.MatchDocumentSummary;
 import com.marklogic.client.query.QueryManager;
 import com.marklogic.client.query.StringQueryDefinition;
 
+
 @Component
 public class SearchService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
+	
 	@Autowired
 	protected DatabaseClient databaseClient;
 
 	@Value("${pageLimit:10}")
     private long pageLimit;
 	
-	public SearchResult<MovieModel, FacetResult> searchText(String queryString,long start) {
+	@Autowired
+	@Qualifier("searchSuggestOptions")
+	private String searchSuggestOptions;
+	
+	public SearchResult<MovieModel, FacetResult> searchText(String queryString,long start,int includetvseries) {
 		//Set start position based on page when page is not first page
 		if(start > 1){
 			start = (start-1)*pageLimit+1;
@@ -46,6 +58,7 @@ public class SearchService {
 			queryDefinition.setCriteria(queryString);
 		}
 		queryDefinition.setOptionsName("searchTermOptions");
+		queryDefinition.setCollections(includetvseries == 1?new String[]{"/movies/","/tvseries/"}:new String[]{"/movies/"});
 		SearchHandle handle = queryManager.search(queryDefinition, new SearchHandle(), start);
 		FacetResult[] facetResult = handle.getFacetResults();
 		List<MovieModel> movieModelList = new ArrayList<MovieModel>();
@@ -62,7 +75,8 @@ public class SearchService {
 					} else if (obj.has("Poster")) {
 						movieModel.setPoster(obj.getString("Poster"));
 					}
-				} catch (Exception je) {
+				} catch (Exception e) {
+					LOGGER.debug("Error in SearchText :"+e.getMessage());
 				}
 			}
 			movieModelList.add(movieModel);
@@ -72,6 +86,7 @@ public class SearchService {
 		result.setItems(movieModelList);
 		result.setTotal(handle.getTotalResults());
 		result.setQueryCriteria(queryString);
+		result.setIncludetvseries(includetvseries);
 		return result;
 	}
 
@@ -86,7 +101,7 @@ public class SearchService {
 		QueryManager queryManager = databaseClient.newQueryManager();
 		queryManager.setPageLength(10);
 		StringQueryDefinition queryDefinition = queryManager.newStringDefinition();
-		queryDefinition.setOptionsName("getAllSearchOptions");
+		queryDefinition.setOptionsName("getAllMoviesSearchOptions");
 		SearchHandle handle = queryManager.search(queryDefinition, new SearchHandle(), start);
 		FacetResult[] facetResult = handle.getFacetResults();
 		List<MovieModel> movieModelList = new ArrayList<MovieModel>();
@@ -103,7 +118,8 @@ public class SearchService {
 					} else if (obj.has("Poster")) {
 						movieModel.setPoster(obj.getString("Poster"));
 					}
-				} catch (Exception je) {
+				} catch (Exception e) {
+					LOGGER.debug("Error in getAllMovies :"+e.getMessage());
 				}
 			}
 			movieModelList.add(movieModel);
@@ -124,5 +140,20 @@ public class SearchService {
 		documentManager.read(uri, strhandle);
 		return strhandle.get();
 	}
+	
+	public String[] getSearchSuggestions(String query){
+		
+		ServerEvaluationCall call = databaseClient.newServerEval();
+	    call.xquery(searchSuggestOptions);
+	    call.addVariable("query",query +"*");
 
+	    DOMHandle handle = new DOMHandle();
+	    call.eval(handle);
+	    Document document = handle.get();
+	    String content = document.getFirstChild().getTextContent();
+	    content = content.replace("\"", "");
+	    String[] result = content.split(",");
+	    return Arrays.asList(result).stream().map(String::trim).collect(Collectors.toList()).stream().toArray(String[]::new);
+	}
+	
 }

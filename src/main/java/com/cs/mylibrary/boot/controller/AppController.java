@@ -44,8 +44,8 @@ public class AppController {
     }
 	
 	@RequestMapping("/searchText")
-    public @ResponseBody SearchResult<MovieModel,FacetResult> searchText(@RequestParam(value="query",required=true) String queryString,@RequestParam(value="start",required=false,defaultValue="1") Long start) {
-        return searchService.searchText(queryString,start);
+    public @ResponseBody SearchResult<MovieModel,FacetResult> searchText(@RequestParam(value="query",required=true) String queryString,@RequestParam(value="start",required=false,defaultValue="1") Long start,@RequestParam(value="includetvseries",required=false,defaultValue="0") Integer includetvseries) {
+        return searchService.searchText(queryString,start,includetvseries);
     }
 	
 	@RequestMapping("/getAllMovies")
@@ -56,5 +56,10 @@ public class AppController {
 	@RequestMapping("/getMovieDetails")
     public @ResponseBody String getMovieDetails(@RequestParam(value="uri",required=false) String uri) {
         return searchService.getMovieDetails(uri);
+    }
+	
+	@RequestMapping("/getSearchSuggestions")
+    public @ResponseBody String[] getSearchSuggestions(@RequestParam(value="query",required=false) String query) {
+        return searchService.getSearchSuggestions(query);
     }
 }

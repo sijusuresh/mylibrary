@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:security="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <bean id="searchSuggestOptions" class="java.lang.String">
+    <constructor-arg>
+      <value><![CDATA[
+xquery version "1.0-ml";
+import module namespace search = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
+declare variable $query external;
+let $options := <search:options xmlns="http://marklogic.com/appservices/search">
+ <default-suggestion-source>
+   <range>
+      <json-property>Actors</json-property>
+   </range>
+ </default-suggestion-source>
+ <term>
+	     <term-option>case-insensitive</term-option>
+	     <term-option>diacritic-insensitive</term-option>
+	     <term-option>punctuation-insensitive</term-option>
+	     <term-option>whitespace-insensitive</term-option>
+	     <term-option>wildcarded</term-option>
+ </term>
+</search:options>
+let $ suggestions := search:suggest($query, $options, 5)
+let $ actors := 
+for $actor in $suggestions
+return
+concat($actor,",")
+let $options := <search:options xmlns="http://marklogic.com/appservices/search">
+ <default-suggestion-source>
+   <range>
+      <json-property>Title</json-property>
+   </range>
+ </default-suggestion-source>
+ <term>
+	     <term-option>case-insensitive</term-option>
+	     <term-option>diacritic-insensitive</term-option>
+	     <term-option>punctuation-insensitive</term-option>
+	     <term-option>whitespace-insensitive</term-option>
+	     <term-option>wildcarded</term-option>
+ </term>
+</search:options>
+let $suggestions := search:suggest($query, $options, 5)
+let $ titles := 
+for $title in $suggestions
+return
+concat($title,",")
+let $options := <search:options xmlns="http://marklogic.com/appservices/search">
+ <default-suggestion-source>
+   <range>
+      <json-property>Director</json-property>
+   </range>
+ </default-suggestion-source>
+ <term>
+	     <term-option>case-insensitive</term-option>
+	     <term-option>diacritic-insensitive</term-option>
+	     <term-option>punctuation-insensitive</term-option>
+	     <term-option>whitespace-insensitive</term-option>
+	     <term-option>wildcarded</term-option>
+ </term>
+</search:options>
+let $suggestions := search:suggest($query, $options, 5)
+let $ directors := 
+for $director in $suggestions
+return
+concat($director,",")
+return (
+<result>
+{$actors}
+{$titles}
+{$directors}
+</result>
+);
+		 ]]></value>
+    </constructor-arg>
+  </bean>
+</beans>

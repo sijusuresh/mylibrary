@@ -12,6 +12,7 @@ $(document).ready(function() {
     	var responseObj = $.parseJSON(JSON.stringify(result));
    	 // Set Right Frame Content
    	 var total_rows = responseObj.total;
+   	 var includetvseries = responseObj.includetvseries;
    	 var queryCriteria = responseObj.queryCriteria;
   	 if(queryCriteria == null){// If query is null dont send null set it as empty string
   		queryCriteria = '';
@@ -36,7 +37,7 @@ $(document).ready(function() {
           var count = 1;
           for(var x = 0;  x < total_rows; x += 10)
           {
-        	 rightFrameContent += '<td><a href="#" onClick="getNextPage(\''+count+'\',\''+encodeURIComponent(queryCriteria)+'\')">'+count+'</a></td>';
+        	 rightFrameContent += '<td><a href="#" onClick="getNextPage(\''+count+'\',\''+encodeURIComponent(queryCriteria)+'\','+includetvseries+')">'+count+'</a></td>';
           	 count++;
           }
           rightFrameContent += '</tr></table>';
@@ -58,7 +59,7 @@ $(document).ready(function() {
    	$('#facetdiv',parent.frames["leftFrame"].document.body).html(content);
     }
 });
-function getNextPage(count, queryCriteria){
+function getNextPage(count, queryCriteria, includetvseries){
 	
 	queryCriteria = decodeURIComponent(queryCriteria);
 	var url="/searchText";
@@ -70,7 +71,8 @@ function getNextPage(count, queryCriteria){
         url: url,
         data: {
         	query: queryCriteria,
-        	start: count
+        	start: count,
+        	includetvseries:includetvseries
         },
         success: function(result){
         	$.fn.setFrameContent(result);
@@ -103,6 +105,7 @@ function getMovieDetails(uri){
         	dialogMessage += '<tr><td class="blue">Production</td><td>'+responseObj.Production+'</td></tr>';
         	dialogMessage += '<tr><td class="blue">Awards</td><td>'+responseObj.Awards+'</td></tr>';
         	dialogMessage += '<tr><td class="blue">Website</td><td>'+responseObj.Website+'</td></tr>';
+        	dialogMessage += '<tr><td class="blue">Type</td><td>'+responseObj.Type+'</td></tr>';
         	dialogMessage += '<tr><td class="blue">imdbRating</td><td>'+responseObj.imdbRating+'</td></tr></table>';
 			$(dialogMessage).appendTo('#moviedialog');
         	// Show Dialog
@@ -117,11 +120,11 @@ function getMovieDetails(uri){
         	      },
         	      show: {
         	          effect: "blind",
-        	          duration: 1000
+        	          duration: 600
         	      },
         	      hide: {
         	          effect: "explode",
-        	          duration: 1000
+        	          duration: 600
         	      },
         	      height: 500,
         	      width: 800,

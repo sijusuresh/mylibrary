@@ -16,7 +16,7 @@ import com.marklogic.client.io.StringHandle;
 
 
 @SpringBootApplication
-@ImportResource(value={"classpath:search-options-config.xml","classpath:search-term-options-config.xml"})
+@ImportResource(value={"classpath:search-options-config.xml","classpath:search-term-options-config.xml","classpath:search-suggest-options-config.xml"})
 public class MainApp extends SpringBootServletInitializer{
 
 	@Value("${marklogic.host}")
