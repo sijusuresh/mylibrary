@@ -76,6 +76,9 @@ function searchFacet(facetName, facetValue){
         },
         success: function(result){
         	$.fn.setFrameContent(result);
+        },
+        error: function(result){
+        	alert("An error occurred: Internal Server Error, Please contact sijusuresh@gmail.com");
         }
    });
 }

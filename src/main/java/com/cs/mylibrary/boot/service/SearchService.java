@@ -46,6 +46,10 @@ public class SearchService {
 	@Qualifier("searchSuggestOptions")
 	private String searchSuggestOptions;
 	
+	/*TO-DO
+	 * Enhance this service to search based on filtering already applied by user
+	 * Make minor changes to UI code and Service code to collect and send the queries already applied as a combined query
+	 */
 	public SearchResult<MovieModel, FacetResult> searchText(String queryString,long start,int includetvseries) {
 		//Set start position based on page when page is not first page
 		if(start > 1){
@@ -141,6 +145,10 @@ public class SearchService {
 		return strhandle.get();
 	}
 	
+	/*TO-DO
+	 * Enhance this service to do suggestions based on any facet filtering applied
+	 * Add criteria queries to the xquery module to enhance this functionality
+	 */
 	public String[] getSearchSuggestions(String query){
 		
 		ServerEvaluationCall call = databaseClient.newServerEval();

@@ -23,9 +23,9 @@ $(document).ready(function() {
         success: function(result){
         	$.fn.setFrameContent(result);
         },
-      	error: function(result) {
-	        alert('error');
-	    }
+        error: function(result){
+        	alert("An error occurred: Internal Server Error, Please contact sijusuresh@gmail.com");
+        }
 	});
 
 	// Set the check box value to a hidden field based on check event
@@ -45,8 +45,8 @@ $(document).ready(function() {
 	      success: function(result) {
 	    	  $.fn.setFrameContent(result);
 	      },
-	      error: function(result) {
-	        alert('error');
+	      error: function(result){
+	         alert("An error occurred: Internal Server Error, Please contact sijusuresh@gmail.com");
 	      }
 	    });
 	  });
